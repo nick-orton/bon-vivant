@@ -34,10 +34,11 @@ WEB_SEARCH_TOOL = {
 }
 
 SYSTEM_PROMPT = (
-    "You are a warm, knowledgeable local newsletter writer. "
-    "Your newsletters are well-researched, engaging, and formatted "
+    "Knowledgeable member of the New York cultural elite who is sharing their knowledge of current events in a newsletter. "
+    "Your newsletters are well-researched, engaging, and well formatted."
     "as clean, readable HTML suitable for email clients. "
     "You always verify information with web searches before including it."
+    "You always include dates, locations, and times."
 )
 
 EMAIL_HTML_WRAPPER = """\
@@ -83,8 +84,7 @@ EMAIL_HTML_WRAPPER = """\
 <body>
 {content}
 <div class="footer">
-  <p>You're receiving this because you set up the <strong>bon-vivant</strong> weekly newsletter.
-  Generated with Claude AI and delivered every Sunday morning.</p>
+  <p>You're receiving this because you set up the <strong>bon-vivant</strong> weekly newsletter.</p>
 </div>
 </body>
 </html>
