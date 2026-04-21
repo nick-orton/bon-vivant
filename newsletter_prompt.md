@@ -14,19 +14,11 @@ done all the research for you. Avoid corporate-speak and listicle filler. Be spe
 
 ---
 
-## The Reader's Location
+## Audience Location
 
-<!-- ================================================================ -->
-<!--  USER: EDIT THE SECTION BELOW to describe your city and context  -->
-<!-- ================================================================ -->
+**City / Neighborhood:** New York City / all neighborhoods, with a preference for Manhattan
 
-**City / Neighborhood:** [YOUR CITY, STATE — e.g., "Portland, Oregon, specifically the
-Alberta Arts District neighborhood"]
-
-**Reader context:** [OPTIONAL: Add any personal context that helps Claude tailor the
-newsletter. Examples: "I have two young kids and enjoy outdoor activities",
-"I'm a foodie who loves trying new restaurants", "I care deeply about local politics
-and sustainability"]
+**Reader context:** Events should be suitable for a working professional who has an office in downtown Manhattan and lives in commuting distance.
 
 <!-- ================================================================ -->
 <!--  END OF USER-EDITABLE SECTION                                    -->
@@ -37,14 +29,24 @@ and sustainability"]
 ## Research Instructions
 
 Use your web search capability to find **current, accurate information** for this week's
-newsletter. Search for each section below. Prioritize:
+newsletter. 
 
-1. Events happening **this coming week** (from today through next Sunday)
-2. Recent local news (published within the last 7 days)
-3. Seasonal or timely community information
+The Newsletter should cover the next 2 weeks of events that can be done in New York City.  It should include where the event is, links to the event websites if available, and a brief summary of the event. 
+
+To Construct this newsletter, do a deep search for the following types of events that I would be interested in:
+
+- Art Gallery Openings
+- Museum Exhibition Openings (real museums, not tourist traps like the museum of ice cream)
+- Classical Music
+- Jazz performances
+- Talks by artists or scientists or other intellectual figures
+- New Restaurants that are opening.
+- Special Chef's Taskings or other relevant information
+
 
 **Always search before writing each section.** Do not rely on your training data for
 current events, dates, or business information — that data may be stale.
+Identify 7-10 events per section.  If fewer than 5 results are found for a category, note this briefly and move on — do not pad with stale or uncertain information.” This prevents hallucination when search results are thin.
 
 ---
 
@@ -52,39 +54,39 @@ current events, dates, or business information — that data may be stale.
 
 ### 1. Opening Note (2–3 sentences)
 A brief, warm greeting that acknowledges the time of year, season, or anything
-particularly notable about this week in the city. Make it feel personal.
+particularly notable about this week in the city.
 
-### 2. This Week's Local News (3–5 items)
-Search for recent local news. For each story:
+### 2. Music
+Search for live performances across the city.  These should focus on classical music, jazz, and other avant guard performances. For each one include:
+- Day and Time
+- Venue
 - Write a 2–4 sentence summary
-- Include **why it matters** to the reader
 - Cite the source with a hyperlink
 
-Suggested searches: `[CITY] news this week`, `[CITY] local news [MONTH YEAR]`
+### 3. Art
+Search for Gallery openings and Museum Exhibitions.  For each one include:
+- Day and Time
+- Venue
+- Write a 2-4 sentence summary
+- Cite the source
 
-### 3. Upcoming Events (4–8 events)
-Search for events happening in the next 7 days. For each event include:
-- Event name (bold)
-- Date, time, and location
-- 1–2 sentence description
-- Link to tickets or more info if available
+### 4. Food
+Search for resteraunt openings, special tasting events, wine tastings, etc.  For each one include:
+- Day and Time
+- Venue
+- Write a 2-4 sentence summary
+- Cite the source
 
-Suggested searches: `[CITY] events this week`, `[CITY] things to do [DATE RANGE]`,
-`[CITY] weekend events [MONTH YEAR]`
+### 5. Talks
+Search for talks by artists, scientists, or other cultural figures.
+For each one include:
+- Day and Time
+- Venue
+- Write a 2-4 sentence summary
+- Cite the source
 
-### 4. Weather Outlook
-Search for the week's weather forecast. Summarize in 2–3 sentences with a practical
-note (e.g., "bring a rain jacket Tuesday", "perfect patio weather Thursday through Saturday").
-
-### 5. Community Spotlight (1 item)
-Search for one interesting local story: a small business opening, a community
-initiative, a remarkable local person, a neighborhood project. Write 3–5 sentences
-with genuine enthusiasm.
-
-### 6. This Week's Recommendation
-Based on your research, give one specific personal recommendation: a restaurant
-dish worth trying, a trail walk, a free event, a local shop discovery. Be specific —
-name the place, the experience, and why it's worth it *this week* in particular.
+### 5. This Week's Recommendation
+Based on your research, give one specific personal recommendation of which of these would me the most interesting, memorable, or must-see.  Prioritize events that are genuinely rare, time-limited, or otherwise hard to replicate — not just the most prominent or heavily marketed.  Also include the ones that everyone will be talking about afterwards.
 
 ---
 
@@ -93,7 +95,7 @@ name the place, the experience, and why it's worth it *this week* in particular.
 Write the complete newsletter as **clean HTML** ready to be embedded in an email body.
 
 **HTML requirements:**
-- Use `<h1>` for the newsletter title: "Bon Vivant — [City Name], [Date]"
+- Use `<h1>` for the newsletter title: "Bon Vivant Newsletter, [Date]"
 - Use `<h2>` for each section heading
 - Use `<p>` for paragraphs
 - Use `<ul>` / `<li>` for event lists
@@ -103,5 +105,5 @@ Write the complete newsletter as **clean HTML** ready to be embedded in an email
 - **Do NOT include** `<html>`, `<head>`, `<body>`, or `<style>` tags — just the inner content
 - Keep inline styles minimal; rely on the email wrapper for overall styling
 
-**Tone:** Warm, specific, locally grounded. Write as if you genuinely care about this
-community and this reader's week.
+**Tone:** 
+Professional and slightly austere.  The audience has pretentions of elitism, cater to this.  Do not be overy flowery with language, complimentary, or obsequious.  Write as if for a reader of The New Yorker or The Paris Review, not Time Out NY.
