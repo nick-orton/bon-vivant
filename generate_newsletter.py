@@ -131,7 +131,7 @@ def generate_newsletter_content(prompt: str) -> str:
             text_parts = [
                 block.text
                 for block in response.content
-                if hasattr(block, "text") and block.text
+                if block.type == "text" and block.text
             ]
             if not text_parts:
                 raise ValueError("Claude returned no text in final response.")
@@ -159,7 +159,7 @@ def generate_newsletter_content(prompt: str) -> str:
             text_parts = [
                 block.text
                 for block in response.content
-                if hasattr(block, "text") and block.text
+                if block.type == "text" and block.text
             ]
             return "\n\n".join(text_parts)
 
