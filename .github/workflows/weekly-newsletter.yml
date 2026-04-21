@@ -1,0 +1,35 @@
+name: Weekly Local Newsletter
+
+on:
+  # 2 PM UTC = 9 AM ET (winter/EST) / 10 AM ET (summer/EDT) every Sunday
+  schedule:
+    - cron: '0 14 * * 0'
+  # Manual trigger — use this to test from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  send-newsletter:
+    name: Generate and Send Newsletter
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate and send newsletter
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_RECIPIENT: ${{ secrets.GMAIL_RECIPIENT }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python generate_newsletter.py
