@@ -85,7 +85,7 @@ For each one include:
 - Write a 2-4 sentence summary
 - Cite the source
 
-### 5. This Week's Recommendation
+### 6. This Week's Recommendation
 Based on your research, give one specific personal recommendation of which of these would me the most interesting, memorable, or must-see.  Prioritize events that are genuinely rare, time-limited, or otherwise hard to replicate — not just the most prominent or heavily marketed.  Also include the ones that everyone will be talking about afterwards.
 
 ---
