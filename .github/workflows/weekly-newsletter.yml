@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  send-newsletter:
-    name: Generate and Send Newsletter
+  post-newsletter:
+    name: Generate and Post Newsletter to Google Group
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -26,10 +26,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Generate and send newsletter
+      - name: Generate and post newsletter to Google Group
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
-          GMAIL_RECIPIENT: ${{ secrets.GMAIL_RECIPIENT }}
+          GOOGLE_GROUP_EMAIL: ${{ secrets.GOOGLE_GROUP_EMAIL }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: python generate_newsletter.py
