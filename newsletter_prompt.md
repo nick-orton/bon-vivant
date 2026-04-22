@@ -48,6 +48,8 @@ To Construct this newsletter, do a deep search for the following types of events
 current events, dates, or business information — that data may be stale.
 Identify 7-10 events per section.  If fewer than 5 results are found for a category, note this briefly and move on — do not pad with stale or uncertain information.” This prevents hallucination when search results are thin.
 
+**Every event listing must lead with the full date** (day of week, month, and day — e.g., "Saturday, May 3 at 8 PM"). Never list a time without its date. **Within each section, list events in chronological order, soonest first.**
+
 ---
 
 ## Newsletter Sections to Research and Write
@@ -58,21 +60,21 @@ particularly notable about this week in the city.
 
 ### 2. Music
 Search for live performances across the city.  These should focus on classical music, jazz, and other avant garde performances. For each one include:
-- **Date and time** (required — omit the event entirely if you cannot confirm the date)
+- **Date and time** (required — include the full date with day of week, month, and day, e.g., "Saturday, May 3 at 8 PM"; never list a time without its date; omit the event entirely if you cannot confirm the date)
 - Venue
 - One sentence description
 - Cite the source with a hyperlink
 
 ### 3. Art
 Search for Gallery openings and Museum Exhibitions.  **Prioritize shows opening this week at smaller or independent galleries over long-running exhibitions at major established venues.** For each one include:
-- **Date and time** (required — omit the event entirely if you cannot confirm the date)
+- **Date and time** (required — include the full date with day of week, month, and day, e.g., "Saturday, May 3 at 8 PM"; never list a time without its date; omit the event entirely if you cannot confirm the date)
 - Venue
 - One sentence description
 - Cite the source
 
 ### 4. Food
 Search for restaurant openings, special tasting events, wine tastings, etc.  For each one include:
-- **Date and time** (required — omit the event entirely if you cannot confirm the date)
+- **Date and time** (required — include the full date with day of week, month, and day, e.g., "Saturday, May 3 at 8 PM"; never list a time without its date; omit the event entirely if you cannot confirm the date)
 - Venue
 - One sentence description
 - Cite the source
@@ -80,7 +82,7 @@ Search for restaurant openings, special tasting events, wine tastings, etc.  For
 ### 5. Talks
 Search for talks by artists, scientists, or other cultural figures.
 For each one include:
-- **Date and time** (required — omit the event entirely if you cannot confirm the date)
+- **Date and time** (required — include the full date with day of week, month, and day, e.g., "Saturday, May 3 at 8 PM"; never list a time without its date; omit the event entirely if you cannot confirm the date)
 - Venue
 - One sentence description
 - Cite the source
