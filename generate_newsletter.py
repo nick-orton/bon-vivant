@@ -3,7 +3,8 @@
 bon-vivant: Weekly Local Newsletter Generator
 
 Reads newsletter_prompt.md, calls Claude with web search to research
-local events, then sends the result as an HTML email via Gmail SMTP.
+local events, then posts the result as an HTML message to a Google Group
+by emailing the group's address via Gmail SMTP.
 """
 
 import os
@@ -23,7 +24,7 @@ load_dotenv()
 
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 GMAIL_SENDER = os.environ["GMAIL_SENDER"]
-GMAIL_RECIPIENT = os.environ["GMAIL_RECIPIENT"]
+GOOGLE_GROUP_EMAIL = os.environ["GOOGLE_GROUP_EMAIL"]
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 
 MODEL = "claude-opus-4-7"
@@ -87,7 +88,7 @@ EMAIL_HTML_WRAPPER = """\
 <body>
 {content}
 <div class="footer">
-  <p>You're receiving this because you set up the <strong>bon-vivant</strong> weekly newsletter.</p>
+  <p>Posted to the Google Group by the <strong>bon-vivant</strong> weekly newsletter.</p>
 </div>
 </body>
 </html>
@@ -170,19 +171,19 @@ def generate_newsletter_content(prompt: str) -> str:
             return "\n\n".join(text_parts)
 
 
-def send_email(subject: str, html_body: str, plain_body: str) -> None:
+def post_to_google_group(subject: str, html_body: str, plain_body: str) -> None:
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = GMAIL_SENDER
-    msg["To"] = GMAIL_RECIPIENT
+    msg["To"] = GOOGLE_GROUP_EMAIL
     msg.attach(MIMEText(plain_body, "plain", "utf-8"))
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
-    print(f"Sending to {GMAIL_RECIPIENT}...")
+    print(f"Posting to Google Group {GOOGLE_GROUP_EMAIL}...")
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
-        smtp.sendmail(GMAIL_SENDER, GMAIL_RECIPIENT, msg.as_string())
-    print("Email sent.")
+        smtp.sendmail(GMAIL_SENDER, GOOGLE_GROUP_EMAIL, msg.as_string())
+    print("Posted to Google Group.")
 
 
 def main() -> None:
@@ -215,7 +216,7 @@ def main() -> None:
         )
 
     full_html = EMAIL_HTML_WRAPPER.format(subject=subject, content=content_html)
-    send_email(subject, full_html, raw_content)
+    post_to_google_group(subject, full_html, raw_content)
     print("Done!")
 
 
