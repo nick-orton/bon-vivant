@@ -31,7 +31,9 @@ done all the research for you. Avoid corporate-speak and listicle filler. Be spe
 Use your web search capability to find **current, accurate information** for this week's
 newsletter. 
 
-The Newsletter should cover the next 2 weeks of events that can be done in New York City.  It should include where the event is, links to the event websites if available, and a brief summary of the event. 
+The Newsletter should cover the next 2 weeks of events that can be done in New York City.  It should include where the event is, links to the event websites if available, and a brief summary of the event.
+
+**Strict time window:** Only include events occurring between today ({{TODAY_DATE}}) and 14 days from today, inclusive. Do not include events scheduled for later than 14 days from today, even if they are noteworthy. Exclude any event whose date falls outside this two-week window.
 
 To Construct this newsletter, do a deep search for the following types of events that I would be interested in:
 
@@ -56,7 +58,7 @@ Every event in every section must follow this exact format, in this order:
 
 1. **Event name** — the title of the event, as the lead of the entry.
 2. **Date and time** — the full date with day of week, month, and day (e.g., "Saturday, May 3 at 8 PM"). Never list a time without its date. Omit the event entirely if you cannot confirm the date.
-3. **Summary** — a single sentence describing the event.
+3. **Summary** — exactly one sentence describing the event. Must be a single sentence: one subject, one terminal punctuation mark. No second sentence, no sentence fragments appended with em dashes or semicolons to smuggle in extra clauses. If you cannot describe the event in one sentence, shorten the description rather than splitting it in two.
 4. **Venue** — if a page about the event exists on the venue's own website, render the venue name as a hyperlink to that page; otherwise, list the venue name as plain text.
 
 **Ordering:** Within each section, list events in chronological order, soonest first.
