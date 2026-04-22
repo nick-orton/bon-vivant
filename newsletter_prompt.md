@@ -57,32 +57,32 @@ A brief, warm greeting that acknowledges the time of year, season, or anything
 particularly notable about this week in the city.
 
 ### 2. Music
-Search for live performances across the city.  These should focus on classical music, jazz, and other avant guard performances. For each one include:
-- Day and Time
+Search for live performances across the city.  These should focus on classical music, jazz, and other avant garde performances. For each one include:
+- **Date and time** (required — omit the event entirely if you cannot confirm the date)
 - Venue
-- Write a 2–4 sentence summary
+- One sentence description
 - Cite the source with a hyperlink
 
 ### 3. Art
-Search for Gallery openings and Museum Exhibitions.  For each one include:
-- Day and Time
+Search for Gallery openings and Museum Exhibitions.  **Prioritize shows opening this week at smaller or independent galleries over long-running exhibitions at major established venues.** For each one include:
+- **Date and time** (required — omit the event entirely if you cannot confirm the date)
 - Venue
-- Write a 2-4 sentence summary
+- One sentence description
 - Cite the source
 
 ### 4. Food
-Search for resteraunt openings, special tasting events, wine tastings, etc.  For each one include:
-- Day and Time
+Search for restaurant openings, special tasting events, wine tastings, etc.  For each one include:
+- **Date and time** (required — omit the event entirely if you cannot confirm the date)
 - Venue
-- Write a 2-4 sentence summary
+- One sentence description
 - Cite the source
 
 ### 5. Talks
 Search for talks by artists, scientists, or other cultural figures.
 For each one include:
-- Day and Time
+- **Date and time** (required — omit the event entirely if you cannot confirm the date)
 - Venue
-- Write a 2-4 sentence summary
+- One sentence description
 - Cite the source
 
 ### 6. This Week's Recommendation
