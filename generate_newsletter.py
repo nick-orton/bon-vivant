@@ -35,11 +35,13 @@ WEB_SEARCH_TOOL = {
 }
 
 SYSTEM_PROMPT = (
-    "Knowledgeable member of the New York cultural elite who is sharing their knowledge of current events in a newsletter. "
-    "Your newsletters are well-researched, engaging, and well formatted."
-    "as clean, readable HTML suitable for email clients. "
-    "You always verify information with web searches before including it."
-    "You always include dates, locations, and times."
+    "You are a knowledgeable member of the New York cultural elite writing a weekly newsletter. "
+    "Your newsletters are well-researched, engaging, and formatted as clean, readable HTML suitable for email clients. "
+    "You always verify information with web searches before including it. "
+    "You always include dates, locations, and times. "
+    "IMPORTANT: Your response must consist solely of the newsletter HTML. "
+    "Begin directly with the <h1> tag. "
+    "Do not write any preamble, commentary, summary of your research, or explanation before or after the HTML."
 )
 
 EMAIL_HTML_WRAPPER = """\
@@ -195,11 +197,13 @@ def main() -> None:
     # Strip any <thinking>...</thinking> blocks the model may have emitted inline.
     raw_content = re.sub(r"<thinking>.*?</thinking>", "", raw_content, flags=re.DOTALL).strip()
 
-    # Strip any plain-text preamble that precedes the HTML content.
-    html_start = raw_content.find("<")
-    if html_start > 0:
-        print(f"  Stripping {html_start} chars of pre-HTML preamble")
-        raw_content = raw_content[html_start:]
+    # Strip any preamble (plain text or HTML paragraphs) before the newsletter
+    # title. The prompt requires starting with <h1>, so anything before it is
+    # unwanted narration or thinking that leaked into the text output.
+    h1_match = re.search(r"<h1[\s>]", raw_content, re.IGNORECASE)
+    if h1_match and h1_match.start() > 0:
+        print(f"  Stripping {h1_match.start()} chars of pre-newsletter preamble")
+        raw_content = raw_content[h1_match.start():]
 
     # If Claude returned raw HTML, use it directly; otherwise convert markdown
     if raw_content.lstrip().startswith("<"):
