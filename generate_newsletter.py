@@ -7,6 +7,7 @@ local events, then sends the result as an HTML email via Gmail SMTP.
 """
 
 import os
+import re
 import smtplib
 import sys
 from datetime import date
@@ -128,6 +129,9 @@ def generate_newsletter_content(prompt: str) -> str:
         messages.append({"role": "assistant", "content": response.content})
 
         if response.stop_reason == "end_turn":
+            for i, block in enumerate(response.content):
+                preview = getattr(block, "text", getattr(block, "thinking", ""))[:120].replace("\n", " ")
+                print(f"    block[{i}] type={block.type!r} preview={preview!r}")
             text_parts = [
                 block.text
                 for block in response.content
@@ -187,6 +191,15 @@ def main() -> None:
     prompt = load_prompt()
 
     raw_content = generate_newsletter_content(prompt)
+
+    # Strip any <thinking>...</thinking> blocks the model may have emitted inline.
+    raw_content = re.sub(r"<thinking>.*?</thinking>", "", raw_content, flags=re.DOTALL).strip()
+
+    # Strip any plain-text preamble that precedes the HTML content.
+    html_start = raw_content.find("<")
+    if html_start > 0:
+        print(f"  Stripping {html_start} chars of pre-HTML preamble")
+        raw_content = raw_content[html_start:]
 
     # If Claude returned raw HTML, use it directly; otherwise convert markdown
     if raw_content.lstrip().startswith("<"):
