@@ -116,7 +116,7 @@ def generate_newsletter_content(prompt: str) -> str:
     while True:
         response = client.messages.create(
             model=MODEL,
-            max_tokens=4096,
+            max_tokens=16384,
             system=[
                 {
                     "type": "text",
@@ -156,19 +156,22 @@ def generate_newsletter_content(prompt: str) -> str:
                 for block in response.content
                 if block.type == "tool_use"
             ]
-            if tool_results:
-                messages.append({"role": "user", "content": tool_results})
-            else:
-                break
-        else:
-            # max_tokens, stop_sequence, or other — extract what we have
-            print(f"Warning: unexpected stop_reason '{response.stop_reason}'")
-            text_parts = [
-                block.text
-                for block in response.content
-                if block.type == "text" and block.text
-            ]
-            return "\n\n".join(text_parts)
+            if not tool_results:
+                raise RuntimeError(
+                    "Claude returned stop_reason='tool_use' with no tool_use blocks."
+                )
+            messages.append({"role": "user", "content": tool_results})
+            continue
+
+        if response.stop_reason == "max_tokens":
+            raise RuntimeError(
+                "Claude hit the max_tokens output limit; the newsletter would be "
+                "truncated. Increase max_tokens in generate_newsletter_content()."
+            )
+
+        raise RuntimeError(
+            f"Unexpected stop_reason from Claude: {response.stop_reason!r}"
+        )
 
 
 def post_to_google_group(subject: str, html_body: str, plain_body: str) -> None:
