@@ -29,6 +29,8 @@ GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 
 MODEL = "claude-opus-4-7"
 PROMPT_FILE = Path(__file__).parent / "newsletter_prompt.md"
+SOURCES_DIR = Path(__file__).parent / "sources"
+EMPTY_SOURCE_PLACEHOLDER = "_(none curated yet)_"
 
 WEB_SEARCH_TOOL = {
     "type": "web_search_20250305",
@@ -95,12 +97,37 @@ EMAIL_HTML_WRAPPER = """\
 """
 
 
+def _load_source_dir(subdir: str) -> str:
+    """
+    Concatenate every .md file in SOURCES_DIR/<subdir> in sorted filename
+    order, prefixing each with a bolded `**filename**` line so the model sees
+    category boundaries. Returns EMPTY_SOURCE_PLACEHOLDER if the directory is
+    missing or contains no markdown files.
+    """
+    directory = SOURCES_DIR / subdir
+    if not directory.is_dir():
+        return EMPTY_SOURCE_PLACEHOLDER
+    files = sorted(directory.glob("*.md"))
+    if not files:
+        return EMPTY_SOURCE_PLACEHOLDER
+    sections = [
+        f"**{path.stem}**\n\n{path.read_text(encoding='utf-8').strip()}"
+        for path in files
+    ]
+    return "\n\n".join(sections)
+
+
 def load_prompt() -> str:
     if not PROMPT_FILE.exists():
         raise FileNotFoundError(f"Prompt file not found: {PROMPT_FILE}")
     template = PROMPT_FILE.read_text(encoding="utf-8")
     today = date.today().strftime("%A, %B %d, %Y")
-    return template.replace("{{TODAY_DATE}}", today)
+    return (
+        template
+        .replace("{{TODAY_DATE}}", today)
+        .replace("{{INCLUDE_VENUES}}", _load_source_dir("include"))
+        .replace("{{EXCLUDE_VENUES}}", _load_source_dir("exclude"))
+    )
 
 
 def generate_newsletter_content(prompt: str) -> str:
