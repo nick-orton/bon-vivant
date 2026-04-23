@@ -1,6 +1,21 @@
-<!-- Placeholder. Replace the example entry below with the curated list of
-independent performance spaces. Format: **Neighborhood** header, then bulleted
-venue names. -->
+**Flatiron**
+* The 8th Floor
+* SoMad
+
+**West Village**
+* Center for Art, Research and Alliances (CARA)
 
 **East Village**
-* Example Independent Venue (replace me)
+* La MaMa Experimental Theatre Club
+
+**SoHo**
+* The Drawing Center
+
+**Tribeca**
+* Artists Space
+
+**Governors Island**
+* The Arts Center at Governors Island
+
+**Downtown Brooklyn**
+* Roulette Intermedium
