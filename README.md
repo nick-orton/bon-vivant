@@ -84,6 +84,8 @@ Use [crontab.guru](https://crontab.guru/) to find your preferred UTC time.
 
 **Change the newsletter style entirely** — `newsletter_prompt.md` drives everything. Rewrite it however you like.
 
+**Curate venues to always include or always exclude** — drop markdown files into `sources/include/` (venues the agent must always check) or `sources/exclude/` (venues, organizers, or categories the agent must never feature). One file per category, bulleted lists grouped under `**Neighborhood**` headers. Every `.md` file in those directories is picked up on the next run — no code change required. See `sources/README.md` for the exact format.
+
 ## Costs
 
 | Service | Cost |
@@ -110,6 +112,15 @@ Use [crontab.guru](https://crontab.guru/) to find your preferred UTC time.
 bon-vivant/
 ├── generate_newsletter.py          # Main script
 ├── newsletter_prompt.md            # YOUR prompt — edit this!
+├── sources/                        # Curated venue lists (include & exclude)
+│   ├── README.md
+│   ├── include/
+│   │   ├── galleries.md
+│   │   ├── jazz.md
+│   │   ├── classical-music-venues.md
+│   │   └── independent.md
+│   └── exclude/
+│       └── venues.md
 ├── requirements.txt
 ├── .env.example                    # Documents required env vars
 ├── .github/
