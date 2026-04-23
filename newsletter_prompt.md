@@ -26,6 +26,31 @@ done all the research for you. Avoid corporate-speak and listicle filler. Be spe
 
 ---
 
+## Curated Venue Lists
+
+The following venue lists are curated by the newsletter owner and live as
+markdown files under `sources/` in the repository. They are spliced into this
+prompt automatically at generation time.
+
+### Always Include
+
+Treat the venues below as *additive*, not exclusive. You may — and should —
+find and feature other events beyond this list. But before finalizing each
+section, search each of these venues' current schedules and include any of
+their events that fall inside the time window and fit the section. Never skip
+a curated venue that has a qualifying event.
+
+{{INCLUDE_VENUES}}
+
+### Always Exclude
+
+Never include any event whose venue, organizer, or category appears below,
+regardless of how prominent or heavily marketed it is. This list is mandatory.
+
+{{EXCLUDE_VENUES}}
+
+---
+
 ## Research Instructions
 
 Use your web search capability to find **current, accurate information** for this week's
@@ -38,7 +63,7 @@ The Newsletter should cover the next 2 weeks of events that can be done in New Y
 To Construct this newsletter, do a deep search for the following types of events that I would be interested in:
 
 - Art Gallery Openings
-- Museum Exhibition Openings (real museums, not tourist traps like the museum of ice cream)
+- Museum Exhibition Openings (see the "Always Exclude" list above for venues to avoid)
 - Classical Music
 - Jazz performances
 - Talks by artists or scientists or other intellectual figures
