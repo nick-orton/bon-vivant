@@ -8,8 +8,9 @@ Sunday morning so all group members receive it.
 
 1. Every Sunday at ~9–10 AM ET, GitHub Actions runs `generate_newsletter.py`
 2. The script loads your prompt from `newsletter_prompt.md`
-3. Claude (`claude-opus-4-7`) uses live web search to research local news, events, and weather
-4. The newsletter is formatted as HTML and posted to your Google Group by emailing the group's address via Gmail SMTP
+3. Each newsletter section (Music, Art, Food, Talks) is researched in parallel by **Claude Sonnet** (web search) and **Gemini 2.0 Flash** (Google Search); results are deduplicated by Claude Haiku
+4. **Claude Opus** synthesizes the deduplicated research into the final newsletter HTML
+5. The newsletter is posted to your Google Group by emailing the group's address via Gmail SMTP
 
 ## Setup (~10 minutes)
 
@@ -32,6 +33,9 @@ git push
 **Anthropic API key**
 1. Go to [console.anthropic.com](https://console.anthropic.com/) and create a key
 
+**Gemini API key**
+1. Go to [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) and create a key
+
 **Gmail App Password** (not your login password)
 1. Enable 2-Step Verification: [myaccount.google.com/security](https://myaccount.google.com/security)
 2. Create an App Password: [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
@@ -52,6 +56,7 @@ In your repo: **Settings → Secrets and variables → Actions → New repositor
 | Secret name | Value |
 |---|---|
 | `ANTHROPIC_API_KEY` | Your Anthropic API key |
+| `GEMINI_API_KEY` | Your Gemini API key (from Google AI Studio) |
 | `GMAIL_SENDER` | Gmail address that posts the newsletter (must be allowed to post to the group) |
 | `GOOGLE_GROUP_EMAIL` | The Google Group's email address (e.g. `my-newsletter@googlegroups.com`) |
 | `GMAIL_APP_PASSWORD` | The 16-character App Password from step 2 |
@@ -90,7 +95,8 @@ Use [crontab.guru](https://crontab.guru/) to find your preferred UTC time.
 
 | Service | Cost |
 |---|---|
-| Anthropic API | ~$0.10–$0.50 per newsletter |
+| Anthropic API | ~$0.10–$0.50 per newsletter (Sonnet × 4 + Haiku × 4 + Opus × 1) |
+| Gemini API | Free tier covers typical usage; see [AI Studio pricing](https://ai.google.dev/pricing) |
 | GitHub Actions | Free (well within free tier) |
 | Gmail | Free |
 
