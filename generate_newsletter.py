@@ -262,7 +262,7 @@ def _research_section_sonnet(section: dict, today: str, exclude_venues: str) -> 
     prompt = _build_section_research_prompt(section, today, exclude_venues)
     messages = [{"role": "user", "content": prompt}]
     print(f"  [sonnet/{section['id']}] starting research...")
-    return _run_tool_loop(client, RESEARCH_MODEL, SYSTEM_PROMPT, messages, max_tokens=4096)
+    return _run_tool_loop(client, RESEARCH_MODEL, SYSTEM_PROMPT, messages, max_tokens=16384)
 
 
 def _research_section_gemini(section: dict, today: str, exclude_venues: str) -> str:
@@ -344,6 +344,11 @@ def _run_tool_loop(
                     "Claude returned stop_reason='tool_use' with no tool_use blocks."
                 )
             messages.append({"role": "user", "content": tool_results})
+            continue
+
+        if response.stop_reason == "pause_turn":
+            # Server-side tool (e.g. web_search_20250305) paused the turn;
+            # continue the loop without adding any new user content.
             continue
 
         if response.stop_reason == "max_tokens":
