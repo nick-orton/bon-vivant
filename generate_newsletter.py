@@ -38,6 +38,8 @@ DEDUP_MODEL = "claude-haiku-4-5-20251001"
 SYNTHESIS_MODEL = "claude-opus-4-7"
 
 PROMPT_FILE = Path(__file__).parent / "newsletter_prompt.md"
+RESEARCH_PROMPT_FILE = Path(__file__).parent / "prompts" / "section_research.md"
+SYNTHESIS_PROMPT_FILE = Path(__file__).parent / "prompts" / "synthesis.md"
 SOURCES_DIR = Path(__file__).parent / "sources"
 EMPTY_SOURCE_PLACEHOLDER = "_(none curated yet)_"
 
@@ -106,16 +108,6 @@ def _load_source_dir(subdir: str) -> str:
     return "\n\n".join(sections)
 
 
-_EVENT_ENTRY_FORMAT = """\
-Every event entry must follow this exact format, in this order:
-1. **Event name** — the title of the event.
-2. **Date and time** — full date with day of week, month, and day (e.g., "Saturday, May 3 at 8 PM"). Omit the event entirely if you cannot confirm the date.
-3. **Summary** — exactly one sentence. One subject, one terminal punctuation mark. No second sentence or fragments appended with em dashes.
-4. **Venue** — hyperlink to the event page on the venue's own website if available; otherwise plain text.
-
-Within each section, list events in chronological order, soonest first."""
-
-
 def _load_venues_for_section(section: dict) -> str:
     """Load only the venue .md files listed in section['venue_files']."""
     stems = section.get("venue_files", [])
@@ -134,34 +126,15 @@ def _build_section_research_prompt(
 ) -> str:
     """Build a focused research prompt for a single newsletter section."""
     include_venues = _load_venues_for_section(section)
-    return f"""\
-Today's date: {today}
-Strict time window: only include events occurring between today and 14 days from today, inclusive.
-
-You are researching the **{section['heading']}** section for the Bon Vivant weekly newsletter — a curated guide for New York City.
-
-Section focus: {section['description']}
-
-### Curated venues to check (mandatory)
-Search each of these venues' current schedules and include any qualifying events. Never skip a curated venue that has an event in the time window.
-
-{include_venues}
-
-### Always exclude
-Never include any event at these venues or from these organizers, regardless of prominence.
-
-{exclude_venues}
-
-### Instructions
-- Search the web to find 7–10 events matching this section's focus within the time window.
-- If fewer than 5 results are found, note this briefly and stop — do not pad with stale or uncertain information.
-- Always search before writing. Do not rely on training data for current events or dates.
-
-### Output format
-Return a plain-text list of event entries. Do not write HTML, headings, or commentary.
-
-{_EVENT_ENTRY_FORMAT}
-"""
+    template = RESEARCH_PROMPT_FILE.read_text(encoding="utf-8")
+    return (
+        template
+        .replace("{{TODAY}}", today)
+        .replace("{{SECTION_HEADING}}", section["heading"])
+        .replace("{{SECTION_DESCRIPTION}}", section["description"])
+        .replace("{{INCLUDE_VENUES}}", include_venues)
+        .replace("{{EXCLUDE_VENUES}}", exclude_venues)
+    )
 
 
 def _build_synthesis_prompt(section_results: dict[str, str], today: str) -> str:
@@ -171,29 +144,12 @@ def _build_synthesis_prompt(section_results: dict[str, str], today: str) -> str:
         events = section_results.get(section["id"], "").strip() or "No events found this week."
         sections_text += f"\n\n=== {section['heading']} (researched events) ===\n{events}"
 
-    return f"""\
-Today's date: {today}
-
-You are writing the weekly edition of **Bon Vivant**, a curated newsletter for New York City.
-All research is complete. Do not perform any additional web searches.
-
-Below are the researched events for each section. Your job is editorial assembly:
-- Write a warm 2–3 sentence Opening Note acknowledging the time of year or something notable this week.
-- Assemble each section using the researched events exactly as provided (correct any obvious formatting inconsistencies).
-- Write a "This Week's Recommendation" picking the single most interesting, rare, or must-see event from all sections. Prioritize genuinely rare or time-limited events over heavily marketed ones.
-
-### Tone
-Professional and slightly austere. Write for a reader of The New Yorker or The Paris Review. Not flowery, not obsequious.
-
-### HTML output requirements
-- Begin directly with <h1>Bon Vivant Newsletter, {today}</h1>
-- Use <h2> for section headings, <p> for paragraphs, <ul>/<li> for event lists, <a href="..."> for links, <strong> for emphasis, <hr> between major sections.
-- Do NOT include <html>, <head>, <body>, or <style> tags.
-- Your entire response must be the newsletter HTML. No preamble, no commentary after.
-
-### Researched content
-{sections_text}
-"""
+    template = SYNTHESIS_PROMPT_FILE.read_text(encoding="utf-8")
+    return (
+        template
+        .replace("{{TODAY}}", today)
+        .replace("{{SECTIONS_TEXT}}", sections_text)
+    )
 
 
 def load_prompt() -> str:
