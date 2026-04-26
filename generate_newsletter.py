@@ -352,8 +352,22 @@ def _run_tool_loop(
             continue
 
         if response.stop_reason == "max_tokens":
+            # Collect all text generated across every prior assistant turn so
+            # we return partial results rather than failing the whole section.
+            all_text = []
+            for msg in messages:
+                if msg.get("role") == "assistant":
+                    content = msg["content"]
+                    if isinstance(content, list):
+                        for block in content:
+                            t = getattr(block, "text", None)
+                            if t and t.strip():
+                                all_text.append(t)
+            print(f"  WARNING: {model} hit max_tokens after {len(messages)} turns; returning partial results ({len(all_text)} text blocks collected)")
+            if all_text:
+                return "\n\n".join(all_text)
             raise RuntimeError(
-                f"Claude ({model}) hit the max_tokens limit; increase max_tokens."
+                f"Claude ({model}) hit the max_tokens limit with no text generated."
             )
 
         raise RuntimeError(
@@ -391,7 +405,11 @@ def _research_section_parallel(
         f_sonnet = executor.submit(_research_section_sonnet, section, today, exclude_venues)
         f_gemini = executor.submit(_research_section_gemini, section, today, exclude_venues)
         sonnet_result = f_sonnet.result()
-        gemini_result = f_gemini.result()
+        try:
+            gemini_result = f_gemini.result()
+        except Exception as exc:
+            print(f"  [gemini/{section['id']}] failed, using sonnet-only: {exc}")
+            return (section["id"], sonnet_result)
     deduped = _deduplicate_section_results(section, sonnet_result, gemini_result)
     return (section["id"], deduped)
 
