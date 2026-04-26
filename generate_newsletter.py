@@ -83,54 +83,7 @@ SYSTEM_PROMPT = (
     "Do not write any preamble, commentary, summary of your research, or explanation before or after the HTML."
 )
 
-EMAIL_HTML_WRAPPER = """\
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{subject}</title>
-  <style>
-    body {{
-      font-family: Georgia, 'Times New Roman', serif;
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 24px 16px;
-      background: #fafaf8;
-      color: #1a1a1a;
-      line-height: 1.7;
-    }}
-    h1 {{ color: #2c4a2e; border-bottom: 2px solid #2c4a2e; padding-bottom: 8px; }}
-    h2 {{ color: #3d6b40; margin-top: 32px; }}
-    h3 {{ color: #4a7a4d; }}
-    a {{ color: #2c4a2e; }}
-    blockquote {{
-      border-left: 4px solid #2c4a2e;
-      margin: 16px 0;
-      padding: 8px 16px;
-      background: #f0f4f0;
-      font-style: italic;
-    }}
-    hr {{ border: none; border-top: 1px solid #d0d8d0; margin: 32px 0; }}
-    ul {{ padding-left: 20px; }}
-    li {{ margin-bottom: 8px; }}
-    .footer {{
-      font-size: 0.85em;
-      color: #666;
-      border-top: 1px solid #d0d8d0;
-      margin-top: 40px;
-      padding-top: 16px;
-    }}
-  </style>
-</head>
-<body>
-{content}
-<div class="footer">
-  <p>Posted to the Google Group by the <strong>bon-vivant</strong> weekly newsletter.</p>
-</div>
-</body>
-</html>
-"""
+_EMAIL_TEMPLATE_PATH = Path(__file__).parent / "templates" / "email_wrapper.html"
 
 
 def _load_source_dir(subdir: str) -> str:
@@ -503,7 +456,11 @@ def main() -> None:
             extras=["fenced-code-blocks", "tables", "header-ids", "smarty-pants"],
         )
 
-    full_html = EMAIL_HTML_WRAPPER.format(subject=subject, content=content_html)
+    full_html = (
+        _EMAIL_TEMPLATE_PATH.read_text(encoding="utf-8")
+        .replace("{subject}", subject)
+        .replace("{content}", content_html)
+    )
     post_to_google_group(subject, full_html, raw_content)
     print("Done!")
 
