@@ -40,6 +40,7 @@ SYNTHESIS_MODEL = "claude-opus-4-7"
 PROMPT_FILE = Path(__file__).parent / "newsletter_prompt.md"
 RESEARCH_PROMPT_FILE = Path(__file__).parent / "prompts" / "section_research.md"
 SYNTHESIS_PROMPT_FILE = Path(__file__).parent / "prompts" / "synthesis.md"
+DEDUP_PROMPT_FILE = Path(__file__).parent / "prompts" / "dedup.md"
 SOURCES_DIR = Path(__file__).parent / "sources"
 EMPTY_SOURCE_PLACEHOLDER = "_(none curated yet)_"
 
@@ -293,13 +294,8 @@ def _deduplicate_section_results(
         f"=== Claude Sonnet results ===\n{sonnet_events}"
         f"\n\n=== Gemini results ===\n{gemini_events}"
     )
-    dedup_system = (
-        f"You are merging two event research lists for the '{section['heading']}' section "
-        "of a New York City newsletter. Remove duplicate events — events that describe the "
-        "same performance or show at the same venue on the same date, even if worded differently. "
-        "Keep the more complete or specific description of each event. "
-        "Return the merged list as plain-text event entries in the same format as the input. "
-        "No commentary, no HTML, no headings — just the event entries."
+    dedup_system = DEDUP_PROMPT_FILE.read_text().format(
+        section_heading=section["heading"]
     )
     messages = [{"role": "user", "content": combined}]
     print(f"  [haiku/{section['id']}] deduplicating...")

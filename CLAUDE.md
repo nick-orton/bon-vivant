@@ -38,6 +38,7 @@ The newsletter also runs automatically via GitHub Actions every Sunday at 9 AM E
 - `sources/exclude/venues.md` — venues/organizers to never feature
 - `templates/email_wrapper.html` — wraps generated HTML; uses `{subject}` and `{content}` placeholders
 - `prompts/section_research.md` — research prompt template
+- `prompts/dedup.md` — deduplication prompt template (uses `{section_heading}` placeholder)
 - `prompts/synthesis.md` — synthesis prompt template
 
 **Prompt caching:** Anthropic API calls use `"cache_control": {"type": "ephemeral"}` on large system prompts to reduce cost.
