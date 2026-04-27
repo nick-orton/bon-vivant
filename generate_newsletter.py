@@ -7,6 +7,7 @@ deduplication, Opus for synthesis) to produce a weekly HTML newsletter, then
 posts it to a Google Group via Gmail SMTP.
 """
 
+import json
 import os
 import re
 import smtplib
@@ -40,6 +41,7 @@ RESEARCH_PROMPT_FILE = Path(__file__).parent / "prompts" / "section_research.md"
 SYNTHESIS_PROMPT_FILE = Path(__file__).parent / "prompts" / "synthesis.md"
 DEDUP_PROMPT_FILE = Path(__file__).parent / "prompts" / "dedup.md"
 SYSTEM_PROMPT_FILE = Path(__file__).parent / "prompts" / "system.md"
+SECTIONS_FILE = Path(__file__).parent / "sections.json"
 SOURCES_DIR = Path(__file__).parent / "sources"
 EMPTY_SOURCE_PLACEHOLDER = "_(none curated yet)_"
 
@@ -48,32 +50,7 @@ WEB_SEARCH_TOOL = {
     "name": "web_search",
 }
 
-SECTIONS = [
-    {
-        "id": "music",
-        "heading": "Music",
-        "description": "Live classical music and jazz performances in NYC in the next 14 days.",
-        "venue_files": ["jazz", "classical-music-venues"],
-    },
-    {
-        "id": "art",
-        "heading": "Art",
-        "description": "Gallery openings and museum exhibition openings. Prioritize smaller independent galleries over major institutions.",
-        "venue_files": ["galleries", "independent"],
-    },
-    {
-        "id": "food",
-        "heading": "Food",
-        "description": "New restaurant openings, special chef tastings, and wine events in NYC next 14 days.",
-        "venue_files": [],
-    },
-    {
-        "id": "talks",
-        "heading": "Talks",
-        "description": "Talks by artists, scientists, or other intellectual figures in NYC next 14 days.",
-        "venue_files": [],
-    },
-]
+SECTIONS = json.loads(SECTIONS_FILE.read_text())
 
 SYSTEM_PROMPT = SYSTEM_PROMPT_FILE.read_text()
 

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "music",
+    "heading": "Music",
+    "description": "Live classical music and jazz performances in NYC in the next 14 days.",
+    "venue_files": ["jazz", "classical-music-venues"]
+  },
+  {
+    "id": "art",
+    "heading": "Art",
+    "description": "Gallery openings and museum exhibition openings. Prioritize smaller independent galleries over major institutions.",
+    "venue_files": ["galleries", "independent"]
+  },
+  {
+    "id": "food",
+    "heading": "Food",
+    "description": "New restaurant openings, special chef tastings, and wine events in NYC next 14 days.",
+    "venue_files": []
+  },
+  {
+    "id": "talks",
+    "heading": "Talks",
+    "description": "Talks by artists, scientists, or other intellectual figures in NYC next 14 days.",
+    "venue_files": []
+  }
+]
