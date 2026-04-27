@@ -16,8 +16,6 @@ python generate_newsletter.py
 
 Required environment variables: `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `GROUP_EMAIL`.
 
-Set `NEWSLETTER_PARALLEL=0` to use legacy single-model (Opus-only) mode instead of the parallel pipeline.
-
 The newsletter also runs automatically via GitHub Actions every Sunday at 9 AM ET (`.github/workflows/weekly-newsletter.yml`).
 
 ## Architecture
