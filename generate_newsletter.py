@@ -31,13 +31,11 @@ GMAIL_SENDER = os.environ["GMAIL_SENDER"]
 GOOGLE_GROUP_EMAIL = os.environ["GOOGLE_GROUP_EMAIL"]
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
 
-MODEL = "claude-opus-4-7"  # legacy single-model constant (rollback path)
 RESEARCH_MODEL = "claude-sonnet-4-6"
 GEMINI_MODEL = "gemini-2.0-flash"
 DEDUP_MODEL = "claude-haiku-4-5-20251001"
 SYNTHESIS_MODEL = "claude-opus-4-7"
 
-PROMPT_FILE = Path(__file__).parent / "newsletter_prompt.md"
 RESEARCH_PROMPT_FILE = Path(__file__).parent / "prompts" / "section_research.md"
 SYNTHESIS_PROMPT_FILE = Path(__file__).parent / "prompts" / "synthesis.md"
 DEDUP_PROMPT_FILE = Path(__file__).parent / "prompts" / "dedup.md"
@@ -143,19 +141,6 @@ def _build_synthesis_prompt(section_results: dict[str, str], today: str) -> str:
         template
         .replace("{{TODAY}}", today)
         .replace("{{SECTIONS_TEXT}}", sections_text)
-    )
-
-
-def load_prompt() -> str:
-    if not PROMPT_FILE.exists():
-        raise FileNotFoundError(f"Prompt file not found: {PROMPT_FILE}")
-    template = PROMPT_FILE.read_text(encoding="utf-8")
-    today = date.today().strftime("%A, %B %d, %Y")
-    return (
-        template
-        .replace("{{TODAY_DATE}}", today)
-        .replace("{{INCLUDE_VENUES}}", _load_source_dir("include"))
-        .replace("{{EXCLUDE_VENUES}}", _load_source_dir("exclude"))
     )
 
 
@@ -341,14 +326,6 @@ def synthesize_newsletter(section_results: dict[str, str], today: str) -> str:
     return _run_tool_loop(client, SYNTHESIS_MODEL, SYSTEM_PROMPT, messages, max_tokens=16384, tools=[])
 
 
-def generate_newsletter_content(prompt: str) -> str:
-    """Legacy single-model path. Kept for rollback via NEWSLETTER_PARALLEL=0."""
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-    messages = [{"role": "user", "content": prompt}]
-    print("Calling Claude API (Claude will search the web — this takes ~1-2 minutes)...")
-    return _run_tool_loop(client, MODEL, SYSTEM_PROMPT, messages)
-
-
 def post_to_google_group(subject: str, html_body: str, plain_body: str) -> None:
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
@@ -369,17 +346,11 @@ def main() -> None:
     subject = f"Your Weekly Local Newsletter — {today.strftime('%B %d, %Y')}"
     today_str = today.strftime("%A, %B %d, %Y")
 
-    if os.environ.get("NEWSLETTER_PARALLEL", "1") == "0":
-        print("Running in legacy single-model mode (NEWSLETTER_PARALLEL=0)...")
-        prompt = load_prompt()
-        raw_content = generate_newsletter_content(prompt)
-    else:
-        print("Running in parallel multi-model mode...")
-        exclude_venues = _load_source_dir("exclude")
-        print("Researching sections (parallel Sonnet + Gemini)...")
-        section_results = research_all_sections(today_str, exclude_venues)
-        print("Synthesizing newsletter...")
-        raw_content = synthesize_newsletter(section_results, today_str)
+    exclude_venues = _load_source_dir("exclude")
+    print("Researching sections (parallel Sonnet + Gemini)...")
+    section_results = research_all_sections(today_str, exclude_venues)
+    print("Synthesizing newsletter...")
+    raw_content = synthesize_newsletter(section_results, today_str)
 
     # Strip any <thinking>...</thinking> blocks the model may have emitted inline.
     raw_content = re.sub(r"<thinking>.*?</thinking>", "", raw_content, flags=re.DOTALL).strip()
