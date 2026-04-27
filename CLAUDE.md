@@ -37,6 +37,7 @@ The newsletter also runs automatically via GitHub Actions every Sunday at 9 AM E
 - `sources/include/` — venue lists that research prompts must check (galleries.md, jazz.md, classical-music-venues.md, independent.md)
 - `sources/exclude/venues.md` — venues/organizers to never feature
 - `templates/email_wrapper.html` — wraps generated HTML; uses `{subject}` and `{content}` placeholders
+- `prompts/system.md` — shared system prompt used by all Claude API calls
 - `prompts/section_research.md` — research prompt template
 - `prompts/dedup.md` — deduplication prompt template (uses `{section_heading}` placeholder)
 - `prompts/synthesis.md` — synthesis prompt template

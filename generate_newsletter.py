@@ -41,6 +41,7 @@ PROMPT_FILE = Path(__file__).parent / "newsletter_prompt.md"
 RESEARCH_PROMPT_FILE = Path(__file__).parent / "prompts" / "section_research.md"
 SYNTHESIS_PROMPT_FILE = Path(__file__).parent / "prompts" / "synthesis.md"
 DEDUP_PROMPT_FILE = Path(__file__).parent / "prompts" / "dedup.md"
+SYSTEM_PROMPT_FILE = Path(__file__).parent / "prompts" / "system.md"
 SOURCES_DIR = Path(__file__).parent / "sources"
 EMPTY_SOURCE_PLACEHOLDER = "_(none curated yet)_"
 
@@ -76,15 +77,7 @@ SECTIONS = [
     },
 ]
 
-SYSTEM_PROMPT = (
-    "You are a knowledgeable member of the New York cultural elite writing a weekly newsletter. "
-    "Your newsletters are well-researched, engaging, and formatted as clean, readable HTML suitable for email clients. "
-    "You always verify information with web searches before including it. "
-    "You always include dates, locations, and times. "
-    "IMPORTANT: Your response must consist solely of the newsletter HTML. "
-    "Begin directly with the <h1> tag. "
-    "Do not write any preamble, commentary, summary of your research, or explanation before or after the HTML."
-)
+SYSTEM_PROMPT = SYSTEM_PROMPT_FILE.read_text()
 
 _EMAIL_TEMPLATE_PATH = Path(__file__).parent / "templates" / "email_wrapper.html"
 
