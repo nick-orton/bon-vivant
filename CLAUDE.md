@@ -31,7 +31,6 @@ The newsletter also runs automatically via GitHub Actions every Sunday at 9 AM E
 **Sections** (hardcoded in script): Music (classical/jazz), Art (galleries), Food (new restaurants), Talks (intellectual events).
 
 **Customizable content files:**
-- `newsletter_prompt.md` — top section is user-editable (city, neighborhood, reader context); rest is research instruction
 - `sources/include/` — venue lists that research prompts must check (galleries.md, jazz.md, classical-music-venues.md, independent.md)
 - `sources/exclude/venues.md` — venues/organizers to never feature
 - `templates/email_wrapper.html` — wraps generated HTML; uses `{subject}` and `{content}` placeholders
