@@ -47,3 +47,11 @@ The newsletter also runs automatically via GitHub Actions every Sunday at 9 AM E
 ## No Tests
 
 There is no test suite. Manual testing is done by triggering the GitHub Actions workflow via "Run workflow" in the Actions tab.
+
+
+## Git Workflow
+- Always create a feature branch on the current branch before making changes
+- Branch naming: `feature/*`, `bugfix/*`, `hotfix/*`
+- Base branch: `main`
+
+
