@@ -7,26 +7,15 @@ Sunday morning so all group members receive it.
 ## How It Works
 
 1. Every Sunday at ~9–10 AM ET, GitHub Actions runs `generate_newsletter.py`
-2. The script loads your prompt from `newsletter_prompt.md`
-3. Each newsletter section (Music, Art, Food, Talks) is researched in parallel by **Claude Sonnet** (web search) and **Gemini 2.0 Flash** (Google Search); results are deduplicated by Claude Haiku
+2. Each newsletter section (Music, Art, Food, Talks) is researched in parallel by **Claude Sonnet** (web search) and **Gemini 2.0 Flash** (Google Search); results are deduplicated by Claude Haiku
 4. **Claude Opus** synthesizes the deduplicated research into the final newsletter HTML
 5. The newsletter is posted to your Google Group by emailing the group's address via Gmail SMTP
 
 ## Setup (~10 minutes)
 
-### 1. Customize your newsletter prompt
+### 1. Customize your newsletter
 
-Open `newsletter_prompt.md` and fill in the **USER-EDITABLE SECTION** near the top:
-
-- **City / Neighborhood** — your city and any neighborhood specifics
-- **Reader context** — optional interests, family situation, etc.
-
-Commit and push:
-```bash
-git add newsletter_prompt.md
-git commit -m "Set my city and preferences"
-git push
-```
+Edit `prompts/section_research.md` to set your city, neighborhood, and reader context near the top of the file. Commit and push the change.
 
 ### 2. Get your credentials
 
@@ -79,7 +68,7 @@ python generate_newsletter.py
 
 ## Customization
 
-**Change your city or interests** — edit `newsletter_prompt.md` and push. Takes effect immediately (or test via "Run workflow").
+**Change your city or interests** — edit `prompts/section_research.md` and push. Takes effect immediately (or test via "Run workflow").
 
 **Change the delivery time** — edit `.github/workflows/weekly-newsletter.yml`:
 ```yaml
@@ -87,7 +76,7 @@ python generate_newsletter.py
 ```
 Use [crontab.guru](https://crontab.guru/) to find your preferred UTC time.
 
-**Change the newsletter style entirely** — `newsletter_prompt.md` drives everything. Rewrite it however you like.
+**Change the newsletter style entirely** — edit `prompts/section_research.md`, `prompts/synthesis.md`, or `prompts/system.md`.
 
 **Curate venues to always include or always exclude** — drop markdown files into `sources/include/` (venues the agent must always check) or `sources/exclude/` (venues, organizers, or categories the agent must never feature). One file per category, bulleted lists grouped under `**Neighborhood**` headers. Every `.md` file in those directories is picked up on the next run — no code change required. See `sources/README.md` for the exact format.
 
@@ -117,7 +106,11 @@ Use [crontab.guru](https://crontab.guru/) to find your preferred UTC time.
 ```
 bon-vivant/
 ├── generate_newsletter.py          # Main script
-├── newsletter_prompt.md            # YOUR prompt — edit this!
+├── prompts/                        # Prompt templates (edit to customize)
+│   ├── system.md
+│   ├── section_research.md
+│   ├── dedup.md
+│   └── synthesis.md
 ├── sources/                        # Curated venue lists (include & exclude)
 │   ├── README.md
 │   ├── include/

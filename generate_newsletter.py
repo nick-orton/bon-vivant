@@ -2,9 +2,9 @@
 """
 bon-vivant: Weekly Local Newsletter Generator
 
-Reads newsletter_prompt.md, calls Claude with web search to research
-local events, then posts the result as an HTML message to a Google Group
-by emailing the group's address via Gmail SMTP.
+Uses a parallel multi-model pipeline (Sonnet + Gemini for research, Haiku for
+deduplication, Opus for synthesis) to produce a weekly HTML newsletter, then
+posts it to a Google Group via Gmail SMTP.
 """
 
 import os
